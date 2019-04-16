@@ -2,37 +2,50 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.net.TeamCalen.dao.UserDao">
 <select id="selectUser" resultType="int" >
-	select IFNULL(MAX(user_id),0) AS user_id from user where username =#{username} and password=#{password};
+	select COALESCE(MAX(user_id), 0) AS user_id
+	from "user"
+	where username = #{username}
+	  and password = #{password};
 </select>
 <select id="selectUserbyname" parameterType="String" resultType="int" >
-	select IFNULL(MAX(user_id),0) AS user_id from user where username =#{username};
+	select COALESCE(MAX(user_id), 0) AS user_id
+	from "user"
+	where username = #{username};
 </select>
 <select id="selectEmailbyName" resultType="String">
-	select email from user where username =#{username};
+	select email
+	from "user"
+	where username = #{username};
 </select>
 <select id="selectNamebyId" parameterType="int" resultType="String">
-	select username from user where user_id=#{user_id};
+	select username
+	from "user"
+	where user_id = #{user_id};
 </select>
 <select id="selectPicbyId" parameterType="int" resultType="String">
-	select picture from user where user_id=#{user_id};
+	select picture
+	from "user"
+	where user_id = #{user_id};
 </select>
 <select id="selectPassword" parameterType="int" resultType="String">
-	select password from user where user_id=#{user_id};
+	select password
+	from "user"
+	where user_id = #{user_id};
 </select>
 <insert id="inserUser"  parameterType="com.net.TeamCalen.entity.User" useGeneratedKeys="true" keyProperty="user_id">
-insert into user (username,password,email)
-values (#{user.username},#{user.password},#{user.email})
+	insert into "user" (username, password, email)
+	values (#{user.username}, #{user.password}, #{user.email})
 </insert>
 <update id="updatePasswordbyName">
-	update user <set>password=#{param2}</set> where username=#{param1};
+	update "user" <set>password=#{param2}</set> where username=#{param1};
 </update>
 <update id="updatePicbyId">
-	update user <set>picture=#{param2}</set> where user_id=#{param1};	
+	update "user" <set>picture=#{param2}</set> where user_id=#{param1};	
 </update>
 <update id="updatePasswordbyId">
-	update user <set>password=#{param2}</set> where user_id=#{param1};
+	update "user" <set>password=#{param2}</set> where user_id=#{param1};
 </update>
 <update id="updateEmail">
-	update user <set>email=#{param1}</set> where user_id=#{param2};
+	update "user" <set>email=#{param1}</set> where user_id=#{param2};
 </update>
 </mapper>

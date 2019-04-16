@@ -1,9 +1,9 @@
 spring:
   datasource:
-    username: root
-    password: 123456
-    driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false
+    username: soulike
+    password: Soulike@PostgreSQL
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/teamcalen
     type: com.alibaba.druid.pool.DruidDataSource
     initialSize: 5
     minIdle: 5

@@ -1,43 +1,23 @@
 package com.net.TeamCalen.controller;
 
-import static org.junit.Assert.assertFalse;
-import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
+import com.net.TeamCalen.entity.Amount;
+import com.net.TeamCalen.service.ScheduleService;
+import com.net.TeamCalen.utils.JsonSet;
+import net.minidev.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.sql.Date;
-import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
-import org.apache.coyote.http11.Http11AprProtocol;
-import org.junit.validator.PublicClassValidator;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.kafka.KafkaProperties.Producer;
-import org.springframework.http.HttpRequest;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitterReturnValueHandler;
-
-import com.fasterxml.jackson.databind.deser.std.DateDeserializers.CalendarDeserializer;
-import com.net.TeamCalen.entity.Amount;
-import com.net.TeamCalen.entity.Schedule;
-import com.net.TeamCalen.service.ScheduleService;
-import com.net.TeamCalen.utils.JsonSet;
-
-import net.minidev.json.JSONObject;
 
 @Controller
 public class ScheduleController {
@@ -55,12 +35,12 @@ public class ScheduleController {
 		}
 		Map<String, Object> map=scheduleService.selectSchedulebyscheduleid(scheduleId);
 		System.out.println("getScheduleId"+map.get("hasReminder"));
-		if((Integer)map.get("hasReminder")==1) {
+		/*if((Integer)map.get("hasReminder")==1) {
 			map.put("hasReminder", true);
 		}
 		else {
 			map.put("hasReminder", false);
-		}
+		}*/
 		jsonReturn=JsonSet.jsonReturnSet(200,map);
 		return jsonReturn;
 	}

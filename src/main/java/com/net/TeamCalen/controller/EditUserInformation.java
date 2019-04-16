@@ -1,32 +1,22 @@
 package com.net.TeamCalen.controller;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-
 import com.net.TeamCalen.config.ServiceInfo;
 import com.net.TeamCalen.config.SystemApi;
 import com.net.TeamCalen.service.UserService;
 import com.net.TeamCalen.utils.JsonSet;
-
 import net.minidev.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 
 @Controller
 public class EditUserInformation {
@@ -54,7 +44,8 @@ public class EditUserInformation {
 //		        toClient.close();
 			    JSONObject jsonName =new JSONObject();
 			    jsonName.put("username", username);
-			    jsonName.put("avatarSrc", serviceInfo.getUrl()+"/server/image/"+picture);
+                if (picture != null)
+                    jsonName.put("avatarSrc", serviceInfo.getUrl() + "/server/image/" + picture);
 				return JsonSet.jsonReturnSet(200, jsonName);
 			}catch(Exception e) {
 				e.printStackTrace();

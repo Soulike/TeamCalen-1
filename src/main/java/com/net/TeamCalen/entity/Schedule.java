@@ -1,10 +1,9 @@
 package com.net.TeamCalen.entity;
-import java.sql.Date;
-
-import org.junit.validator.PublicClassValidator;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.sql.Date;
 public class Schedule {
 	private int schedule_id;
 	private int user_id;

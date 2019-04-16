@@ -1,71 +1,118 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.net.TeamCalen.dao.ScheduleDao">
-	<insert id="insertSchedule" parameterType="com.net.TeamCalen.entity.Schedule" useGeneratedKeys="true" keyProperty="schedule_id">
-		insert into schedule (user_id,
-	date,
-	start_hour,
-	start_minute,
-	end_hour,
-	end_minute,
-	schedule_text,
-	state,
-	hasReminder)
-	values
-	(#{user_id},
-	#{date},
-	#{start_hour},#{start_minute},#{end_hour},#{end_minute},
-	#{schedule_text},#{state},#{hasReminder});
-	</insert>
-	<select id="judgeUserbyScheduleId" parameterType="int" resultType="int">
-		select user_id from schedule where schedule_id=#{schedule_id};
-	</select>
-	<select id="selectSchedulebyuserid" parameterType="int" resultType="map">
-		select schedule_id as id,DATE_FORMAT(date,"%Y") as year,DATE_FORMAT(date,"%m") as month,DATE_FORMAT(date,"%d") as day,start_hour as startHour,start_minute as startMinute,
-				end_hour as endHour,end_minute as endMinute,schedule_text as scheduleText,state as scheduleState
-		 from schedule where user_id=#{user_id};
-	</select>
-	<select id="selectSchedulebydate" resultType="map">
-		select schedule_id as id,DATE_FORMAT(date,"%Y") as year,DATE_FORMAT(date,"%m") as month,DATE_FORMAT(date,"%d") as day,start_hour as startHour,start_minute as startMinute,
-				end_hour as endHour,end_minute as endMinute,schedule_text as scheduleText,state as scheduleState
-		 from schedule where date=#{date} and user_id=#{user_id};
-	</select>
-	<select id="selectRecentSchedules" resultType="map">
-		select schedule_id as id,DATE_FORMAT(date,"%Y") as year,DATE_FORMAT(date,"%m") as month,DATE_FORMAT(date,"%d") as day,start_hour as startHour,start_minute as startMinute,
-				end_hour as endHour,end_minute as endMinute,schedule_text as scheduleText,state as scheduleState
-		 from schedule where date &gt;=#{date} and user_id=#{user_id} order by date,start_hour,start_minute,end_hour,end_minute ${order} limit #{amount};
-	</select>
-	  
-	<resultMap id="map" type="com.net.TeamCalen.entity.Amount" >
-	<result property="day" column="day" />
-	<result property="scheduleAmount" column="scheduleAmount"/>
-	</resultMap>
-	<select id="getEveryDayScheduleAmountInAMonth" resultMap="map">
-		select DATE_FORMAT(date,"%d") as day,count(*) as scheduleAmount from schedule where DATE_FORMAT(date,'%Y-%m')=#{yearmonth} and user_id=#{user_id} GROUP BY day;
-	</select>
-	<select id="selectSchedulebyscheduleid" parameterType="int" resultType="map">
-		select DATE_FORMAT(date,"%Y") as year,DATE_FORMAT(date,"%m") as month,DATE_FORMAT(date,"%d") as day,start_hour as startHour,start_minute as startMinute,
-				end_hour as endHour,end_minute as endMinute,schedule_text as scheduleText,hasReminder
-		 from schedule where schedule_id=#{schedule_id};
-	</select>
-	<update id="updateSchedulebystate" >
-		update schedule <set>state=#{param2} </set> where schedule_id=#{param1};
-	</update>
-	<update id="updateSchedule">
-		update schedule
-		<set>
-	date=#{schedule.date},
-	start_hour=#{schedule.start_hour},
-	start_minute=#{schedule.start_minute},
-	end_hour=#{schedule.end_hour},
-	end_minute=#{schedule.end_minute},
-	schedule_text=#{schedule.schedule_text},
-	<!-- state=#{schedule.state},-->
-	hasReminder=#{schedule.hasReminder}
-		</set>
-		where schedule_id=#{schedule.schedule_id};
-	</update>
-	<delete id="deleteSchedule" parameterType="int">
-		delete from schedule where schedule_id=#{schedule_id};
-	</delete>
+    <insert id="insertSchedule" parameterType="com.net.TeamCalen.entity.Schedule" useGeneratedKeys="true"
+            keyProperty="schedule_id">
+        insert into schedule (user_id,
+                              date,
+                              start_hour,
+                              start_minute,
+                              end_hour,
+                              end_minute,
+                              schedule_text,
+                              state,
+                              hasReminder)
+        values (#{user_id},
+                #{date},
+                #{start_hour}, #{start_minute}, #{end_hour}, #{end_minute},
+                #{schedule_text}, #{state}, #{hasReminder});
+    </insert>
+    <select id="judgeUserbyScheduleId" parameterType="int" resultType="int">
+        select user_id
+        from schedule
+        where schedule_id = #{schedule_id};
+    </select>
+    <select id="selectSchedulebyuserid" parameterType="int" resultType="map">
+        select schedule_id           as "id",
+               TO_CHAR(date, 'YYYY') as "year",
+               TO_CHAR(date, 'MM')   as "month",
+               TO_CHAR(date, 'DD')   as "day",
+               start_hour            as "startHour",
+               start_minute          as "startMinute",
+               end_hour              as "endHour",
+               end_minute            as "endMinute",
+               schedule_text         as "scheduleText",
+               state                 as "scheduleState"
+        from schedule
+        where user_id = #{user_id};
+    </select>
+    <select id="selectSchedulebydate" resultType="map">
+        select schedule_id           as "id",
+               TO_CHAR(date, 'YYYY') as "year",
+               TO_CHAR(date, 'MM')   as "month",
+               TO_CHAR(date, 'DD')   as "day",
+               start_hour            as "startHour",
+               start_minute          as "startMinute",
+               end_hour              as "endHour",
+               end_minute            as "endMinute",
+               schedule_text         as "scheduleText",
+               state                 as "scheduleState"
+        from schedule
+        where date = #{date}
+          and user_id = #{user_id};
+    </select>
+    <select id="selectRecentSchedules" resultType="map">
+        select schedule_id           as "id",
+               TO_CHAR(date, 'YYYY') as "year",
+               TO_CHAR(date, 'MM')   as "month",
+               TO_CHAR(date, 'DD')   as "day",
+               start_hour            as "startHour",
+               start_minute          as "startMinute",
+               end_hour              as "endHour",
+               end_minute            as "endMinute",
+               schedule_text         as "scheduleText",
+               state                 as "scheduleState"
+        from schedule
+        where date &gt;= #{date}
+          and user_id = #{user_id}
+        order by date, "startHour", "startMinute", "endHour", "endMinute" ${order}
+        limit #{amount};
+    </select>
+
+    <resultMap id="map" type="com.net.TeamCalen.entity.Amount">
+        <result property="day" column="day"/>
+        <result property="scheduleAmount" column="scheduleAmount"/>
+    </resultMap>
+    <select id="getEveryDayScheduleAmountInAMonth" resultMap="map">
+        select TO_CHAR(date, 'DD') as "day", count(*) as "scheduleAmount"
+        from schedule
+        where TO_CHAR(date, 'YYYY-MM') = #{yearmonth}
+          and user_id = #{user_id}
+        GROUP BY day;
+    </select>
+    <select id="selectSchedulebyscheduleid" parameterType="int" resultType="map">
+        select TO_CHAR(date, 'YYYY') as "year",
+               TO_CHAR(date, 'MM')   as "month",
+               TO_CHAR(date, 'DD')   as "day",
+               start_hour            as "startHour",
+               start_minute          as "startMinute",
+               end_hour              as "endHour",
+               end_minute            as "endMinute",
+               schedule_text         as "scheduleText",
+               hasReminder           as "hasReminder"
+        from schedule
+        where schedule_id = #{schedule_id};
+    </select>
+    <update id="updateSchedulebystate">
+        update schedule <set>state=#{param2}</set> where schedule_id=#{param1};
+    </update>
+    <update id="updateSchedule">
+        update schedule
+        <set>
+            date=#{schedule.date},
+            start_hour=#{schedule.start_hour},
+            start_minute=#{schedule.start_minute},
+            end_hour=#{schedule.end_hour},
+            end_minute=#{schedule.end_minute},
+            schedule_text=#{schedule.schedule_text},
+            <!-- state=#{schedule.state},-->
+            hasReminder=#{schedule.hasReminder}
+        </set>
+        where schedule_id=#{schedule.schedule_id};
+    </update>
+    <delete id="deleteSchedule" parameterType="int">
+        delete
+        from schedule
+        where schedule_id = #{schedule_id};
+    </delete>
 </mapper>
