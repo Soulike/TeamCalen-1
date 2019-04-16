@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.net.TeamCalen.config.SystemApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.net.TeamCalen.config.ServiceInfo;
+import com.net.TeamCalen.config.SystemApi;
 import com.net.TeamCalen.service.UserService;
 import com.net.TeamCalen.utils.JsonSet;
 
@@ -108,7 +108,7 @@ public class EditUserInformation {
 			String username=userservice.selectNamebyId(user_id);
 			if (!avatar.isEmpty()) {    
 	            try { 
-	            	String path=SystemApi.filePath;
+	            	String path=SystemApi.filePath;//从配置文件中获取
 	            	System.out.println("path="+path);
 	            	String filename=username+avatar.getOriginalFilename().substring(
 	            			avatar.getOriginalFilename().lastIndexOf("."));
